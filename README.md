@@ -1,16 +1,16 @@
-# signature
+# Assinatura de E-mail
 
-## Project setup
+## Baixar dependências
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### Ambiente de Dev
 ```
 yarn run serve
 ```
 
-### Compiles and minifies for production
+### Gerar Build
 ```
 yarn run build
 ```
