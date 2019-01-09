@@ -97,7 +97,7 @@
                       <tr>
                         <td valign="top">
                           <a tabindex="-1" target="_blank" href="https://www.financas360.com.br/">
-                            <img alt="Logo - finanças 360" title="Logo - finanças 360" border="0" src="https://i.imgur.com/0nr54h6.png" style="width: 120px;margin-top: 0;margin-right:10px;">
+                            <img alt="Logo - finanças 360" title="Logo - finanças 360" border="0" src="https://user-images.githubusercontent.com/7879993/50893045-1f98ee00-13e7-11e9-8a0e-455e14aa1c7f.png" style="width: 120px;margin-top: 0;margin-right:10px;">
                           </a>
                         </td>
                         <td padding="0" style="font-family: arial,sans-serif;">
@@ -140,13 +140,13 @@
                               <tr>
                                 <td style="font: normal 100% Arial,Helvetica,sans-serif">
                                   <a target="_blank" href="https://www.linkedin.com/company/finan%C3%A7as-360/">
-                                    <img style="width:20px;" src="https://i.imgur.com/AzWbcNp.png" alt="Linkedin">
+                                    <img style="width:20px;" src="https://user-images.githubusercontent.com/7879993/50893241-8c13ed00-13e7-11e9-879c-fffab0df0a05.png" alt="Linkedin">
                                   </a>&nbsp;
                                   <a target="_blank" href="https://pt-br.facebook.com/financas360/">
-                                    <img style="width:20px;" src="https://i.imgur.com/otRrhlh.png" alt="Facebook">
+                                    <img style="width:20px;" src="https://user-images.githubusercontent.com/7879993/50893215-874f3900-13e7-11e9-97b7-a7c810281cc0.png" alt="Facebook">
                                   </a>&nbsp;
                                   <a target="_blank" href="https://blog.financas360.com.br/">
-                                    <img style="width:20px;" src="https://i.imgur.com/0Gkzkwv.png" alt="Blog">
+                                    <img style="width:20px;" src="https://user-images.githubusercontent.com/7879993/50893248-90400a80-13e7-11e9-972f-bb46c1e39c80.png" alt="Blog">
                                   </a>
                                 </td>
                               </tr>
