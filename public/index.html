@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Finanças 360 | Assinatura de E-mail</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+  </head>
+  <body>
+    <noscript>
+      <strong>Por favor, ative seu javascript para acessar essa página.</strong>
+    </noscript>
+    <script>
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker.register("/assinatura-email-f360/sw.js", {
+          scope: "/assinatura-email-f360/"
+        });
+      }
+    </script>
+    <div id="app"></div>
+  </body>
+</html>
