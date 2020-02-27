@@ -1,9 +1,6 @@
 <template>
   <v-app class="signature">
     <v-content fill-height>
-      <!--<div class="signature__header">
-        <financas-logo class="logo" /><span>- Assinatura de e-mail</span>
-      </div>-->
       <v-container fluid>
         <v-layout row wrap>
           <v-flex xs12 md4 pa-2>
@@ -19,47 +16,17 @@
                     type="text"
                   ></v-text-field>
                   <v-text-field
-                    ref="start"
-                    tabindex="1"
-                    v-model="email"
-                    :rules="[rules.email]"
-                    label="E-mail"
-                    autocomplete="new-email"
-                    type="text"
-                  ></v-text-field>
-                  <v-text-field
                     tabindex="2"
                     v-model="title"
                     label="Função"
                     autocomplete="new-title"
                     type="text"
                   ></v-text-field>
-                  <!--<v-text-field
-                    tabindex="3"
-                    v-model="address"
-                    label="Endereço"
-                    autocomplete="new-address"
-                    type="text"
-                  ></v-text-field>
-                  <v-text-field
-                    tabindex="4"
-                    v-model="website"
-                    label="Website"
-                    autocomplete="new-site"
-                    type="text"
-                  ></v-text-field>-->
                   <v-text-field
                     tabindex="5"
                     v-model="phone1"
                     label="Telefone #1"
                     autocomplete="new-phone1"
-                    type="text"
-                  ></v-text-field>
-                  <v-text-field
-                    tabindex="6"
-                    v-model="phone2"
-                    label="Telefone #2"
-                    autocomplete="new-phone2"
                     type="text"
                   ></v-text-field>
                 </v-form>
@@ -81,6 +48,7 @@
             </v-card>
           </v-flex>
           <v-flex xs12 md8 pa-2>
+            <!-- AREA DE COPIAR -->
             <v-card class="elevation-1" height="100%">
               <div class="signature__source">
                 <div ref="sourceWrapper">
@@ -88,73 +56,51 @@
                     id="source"
                     cellpadding="0"
                     cellspacing="0"
-                    style="font-family:Helvetica, Arial, sans-serif;font-size:12px;font-weight:normal;color:#37474f;text-align:left;line-height:20px;"
+                    class="tf360"
                   >
-                    <tbody>
-                      <tr>
-                        <td><br><br></td>
-                      </tr>
-                      <tr>
-                        <td valign="top">
-                          <a tabindex="-1" target="_blank" href="https://www.financas360.com.br/">
-                            <img alt="Logo - finanças 360" title="Logo - finanças 360" border="0" src="https://user-images.githubusercontent.com/7879993/50893045-1f98ee00-13e7-11e9-8a0e-455e14aa1c7f.png" style="width: 120px;margin-top: 0;margin-right:10px;">
-                          </a>
-                        </td>
-                        <td padding="0" style="font-family: arial,sans-serif;">
-                          <table border="0" style="font-family:Helvetica, Arial, sans-serif;font-size:12px;font-weight:normal;color:#37474f;text-align:left;line-height:20px;">
-                            <tbody>
-                              <tr>
-                                <td style="font: normal 100% Arial,Helvetica,sans-serif">
-                                  <span style="font-weight: bold; font-size: 13px; color: #404756;">{{name}}</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td style="font: normal 100% Arial,Helvetica,sans-serif">
-                                  <span style="color: #9a9a9a;">{{title}}</span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td style="font: normal 100% Arial,Helvetica,sans-serif">
-                                  <a tabindex="-1" :href="tel1" style="color: #9a9a9a;">
-                                    {{ phone1 || "+55 (11) 2091-6178" }}
-                                  </a>&nbsp;
-                                  <span v-if="phone2" style="color:#999;">|&nbsp;</span>
-                                  <a tabindex="-1" :href="tel2" style="color: #9a9a9a;">{{ phone2 }}</a>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td style="text-decoration: none; display: grid;font: normal 100% Arial,Helvetica,sans-serif">
-                                  <a style="color: #2f79c5;text-decoration: none;" v-bind:href="'mailto:'+(email)">{{ email}}</a>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td style="text-decoration: none; display: grid;font: normal 100% Arial,Helvetica,sans-serif">
-                                  <a style="color: #2f79c5;text-decoration: none;" target="_blank" href="https://www.financas360.com.br">https://www.financas360.com.br</a>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td style="font: normal 100% Arial,Helvetica,sans-serif">
-                                  <hr style="margin: 8px 0;">
-                                </td>
-                              </tr>
-                              <tr>
-                                <td style="font: normal 100% Arial,Helvetica,sans-serif">
-                                  <a target="_blank" href="https://www.linkedin.com/company/finan%C3%A7as-360/">
-                                    <img style="width:20px;" src="https://user-images.githubusercontent.com/7879993/50893241-8c13ed00-13e7-11e9-879c-fffab0df0a05.png" alt="Linkedin">
-                                  </a>&nbsp;
-                                  <a target="_blank" href="https://pt-br.facebook.com/financas360/">
-                                    <img style="width:20px;" src="https://user-images.githubusercontent.com/7879993/50893215-874f3900-13e7-11e9-97b7-a7c810281cc0.png" alt="Facebook">
-                                  </a>&nbsp;
-                                  <a target="_blank" href="https://blog.financas360.com.br/">
-                                    <img style="width:20px;" src="https://user-images.githubusercontent.com/7879993/50893248-90400a80-13e7-11e9-972f-bb46c1e39c80.png" alt="Blog">
-                                  </a>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </td>
-                      </tr>
-                    </tbody>
+                    <tr>
+                      <th class="tf360-style">
+                        {{ name }} <br />
+                        <span
+                          style="font-weight: 600; font-size: 13px; padding-bottom: 50px; color: #404756;"
+                          >{{ title }}</span
+                        >
+                      </th>
+                      <th
+                        style="background:url(https://user-images.githubusercontent.com/7879993/75486230-de68f200-598a-11ea-979a-85c884ea3983.png) bottom right no-repeat; background-position: center; "
+                        class="tf360-style"
+                        rowspan="4"
+                      ></th>
+                      <th
+                        style="padding-left: 20px"
+                        class="tf360-style"
+                        rowspan="4"
+                      >
+                        <img
+                          src="https://user-images.githubusercontent.com/7879993/75485601-c0e75880-5989-11ea-889a-99eac92d0bd6.png"
+                          alt="Logo F360°"
+                        />
+                      </th>
+                    </tr>
+                    <tr valign="bottom">
+                      <td style="color:#616161;">
+                        <img
+                          src="https://user-images.githubusercontent.com/7879993/75485599-c04ec200-5989-11ea-9d9d-6d5a516f93f5.png"
+                          width="22"
+                          alt="Telefone"
+                        />{{ phone1 || "+55 (11) 2091-6178" }} <br />
+                      </td>
+                    </tr>
+                    <tr valign="top">
+                      <td style="color:#616161;">
+                        <img
+                          src="https://user-images.githubusercontent.com/7879993/75485604-c17fef00-5989-11ea-8fe9-1557363f1e45.png"
+                          width="22"
+                          alt="Site"
+                        />
+                        www.f360.com.br
+                      </td>
+                    </tr>
                   </table>
                 </div>
               </div>
@@ -198,8 +144,8 @@ export default {
     phone2: "",
     rules: {
       email: value => {
-        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        return pattern.test(value) || 'E-mail inválido.'
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return pattern.test(value) || "E-mail inválido.";
       }
     }
   }),
@@ -310,5 +256,41 @@ body {
       padding: 4px 4px 0;
     }
   }
+}
+
+.tf360 {
+  border-collapse: collapse;
+  border-spacing: 0;
+  padding-top: 20px;
+}
+
+.tf360 td {
+  font-family: Tahoma, sans-serif;
+  font-size: 12px;
+  padding: 0 10px 0 0;
+  overflow: hidden;
+  word-break: normal;
+  font-weight: 600;
+}
+
+.tf360 th {
+  font-family: Tahoma, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  overflow: hidden;
+  word-break: normal;
+}
+
+.tf360 .tf360-style {
+  text-align: left;
+  padding-right: 20px;
+}
+
+img {
+  margin-right: 10px;
+}
+
+.foto {
+  padding-left: 10px;
 }
 </style>
