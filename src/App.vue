@@ -29,6 +29,13 @@
                     autocomplete="new-phone1"
                     type="text"
                   ></v-text-field>
+                  <v-text-field
+                    tabindex="6"
+                    v-model="phone2"
+                    label="Telefone #2"
+                    autocomplete="new-phone2"
+                    type="text"
+                  ></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions class="d-flex">
@@ -59,15 +66,15 @@
                     class="tf360"
                   >
                     <tr>
-                      <th class="tf360-style">
+                      <th class="tf360-style" style="font-size: 14px;">
                         {{ name }} <br />
                         <span
-                          style="font-weight: 600; font-size: 13px; padding-bottom: 50px; color: #404756;"
+                          style="font-weight: 600; font-size: 11px; padding-bottom: 50px; color: #404756;"
                           >{{ title }}</span
                         >
                       </th>
                       <th
-                        style="background:url(https://user-images.githubusercontent.com/7879993/75486230-de68f200-598a-11ea-979a-85c884ea3983.png) bottom right no-repeat; background-position: center; "
+                        style="background:url(https://user-images.githubusercontent.com/7879993/75486230-de68f200-598a-11ea-979a-85c884ea3983.png) bottom right no-repeat; background-position: center; height: 92px;"
                         class="tf360-style"
                         rowspan="4"
                       ></th>
@@ -86,16 +93,25 @@
                       <td style="color:#616161;">
                         <img
                           src="https://user-images.githubusercontent.com/7879993/75485599-c04ec200-5989-11ea-9d9d-6d5a516f93f5.png"
-                          width="22"
+                          width="16"
                           alt="Telefone"
                         />{{ phone1 || "+55 (11) 2091-6178" }} <br />
+                      </td>
+                    </tr>
+                    <tr v-if="phone2" valign="bottom">
+                      <td style="color:#616161;">
+                        <img
+                          src="https://user-images.githubusercontent.com/7879993/75485599-c04ec200-5989-11ea-9d9d-6d5a516f93f5.png"
+                          width="16"
+                          alt="Telefone"
+                        />{{ phone2 }} <br />
                       </td>
                     </tr>
                     <tr valign="top">
                       <td style="color:#616161;">
                         <img
                           src="https://user-images.githubusercontent.com/7879993/75485604-c17fef00-5989-11ea-8fe9-1557363f1e45.png"
-                          width="22"
+                          width="16"
                           alt="Site"
                         />
                         www.f360.com.br
@@ -266,11 +282,11 @@ body {
 
 .tf360 td {
   font-family: Tahoma, sans-serif;
-  font-size: 12px;
-  padding: 0 10px 0 0;
+  font-size: 11px;
+  padding: 0 9px 0 0;
   overflow: hidden;
   word-break: normal;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .tf360 th {
