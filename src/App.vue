@@ -37,6 +37,12 @@
                     type="text"
                   ></v-text-field>
                 </v-form>
+                <v-select
+                  v-model="logoSelected"
+                  :items="logos"
+                  label="Logos"
+                  dense
+                ></v-select>
               </v-card-text>
               <v-card-actions class="d-flex">
                 <v-btn
@@ -83,10 +89,7 @@
                         class="tf360-style"
                         rowspan="4"
                       >
-                        <img
-                          src="https://user-images.githubusercontent.com/7879993/75485601-c0e75880-5989-11ea-889a-99eac92d0bd6.png"
-                          alt="Logo F360°"
-                        />
+                        <img :src="logoSelected" alt="Logo F360°" />
                       </th>
                     </tr>
                     <tr valign="bottom">
@@ -163,7 +166,21 @@ export default {
         const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return pattern.test(value) || "E-mail inválido.";
       }
-    }
+    },
+    logos: [
+      {
+        text: "Logo f360",
+        value:
+          "https://user-images.githubusercontent.com/7879993/83878094-fc748a00-a711-11ea-833c-98bcc1019cbf.png"
+      },
+      {
+        text: "Logo Contábil",
+        value:
+          "https://user-images.githubusercontent.com/7879993/83878098-fd0d2080-a711-11ea-94ca-3b25d366bc2a.png"
+      }
+    ],
+    logoSelected:
+      "https://user-images.githubusercontent.com/7879993/83878094-fc748a00-a711-11ea-833c-98bcc1019cbf.png"
   }),
   computed: {
     tel1() {
@@ -308,5 +325,8 @@ img {
 
 .foto {
   padding-left: 10px;
+}
+i.v-icon.material-icons {
+  display: none;
 }
 </style>
