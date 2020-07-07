@@ -129,7 +129,7 @@
                     </tr>
                   </table>
 
-                  <table class="f360Snt" v-if="layoutSelected !== 'padrao'">
+                  <table id="source" class="f360Snt" v-if="layoutSelected !== 'padrao'">
                     <tbody>
                       <tr class="sntWrap">
                         <td class="sntImg">
