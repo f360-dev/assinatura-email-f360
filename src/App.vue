@@ -43,6 +43,12 @@
                   label="Logos"
                   dense
                 ></v-select>
+                <v-select
+                  v-model="layoutSelected"
+                  :items="layout"
+                  label="Layout"
+                  dense
+                ></v-select>
               </v-card-text>
               <v-card-actions class="d-flex">
                 <v-btn
@@ -70,6 +76,7 @@
                     cellpadding="0"
                     cellspacing="0"
                     class="tf360"
+                    v-if="layoutSelected == 'padrao'"
                   >
                     <tr>
                       <th class="tf360-style" style="font-size: 14px;">
@@ -120,6 +127,58 @@
                         www.f360.com.br
                       </td>
                     </tr>
+                  </table>
+
+                  <table class="f360Snt" v-if="layoutSelected !== 'padrao'">
+                    <tbody>
+                      <tr class="sntWrap">
+                        <td class="sntImg">
+                          <img
+                            v-show="/Julia/.test(name)"
+                            src="https://user-images.githubusercontent.com/7879993/86842848-248e3a80-c07c-11ea-8b80-5df2aaf2b589.png"
+                          />
+                          <img
+                            v-show="/Ana/.test(name)"
+                            src="https://user-images.githubusercontent.com/7879993/86842841-235d0d80-c07c-11ea-9d7a-ab4c85e9db7d.png"
+                          />
+                          <img
+                            v-show="/Cássia/.test(name)"
+                            src="https://user-images.githubusercontent.com/7879993/86842846-248e3a80-c07c-11ea-87b7-a86d5659a254.png"
+                          />
+                        </td>
+                        <td class="sntContent">
+                          <div class="sntIntro">
+                            <span class="sntName">{{ name }}</span> <br />
+                            <span class="sntFnct">{{ title }}</span>
+                          </div>
+
+                          <div class="sntContact">
+                            <img
+                              style="width:33px"
+                              src="https://user-images.githubusercontent.com/7879993/86842456-9914a980-c07b-11ea-9c43-0a56a01090f8.png"
+                              alt="telefone"
+                            />
+                            <span>+55 (11) 2091-6198</span>
+                          </div>
+                          <div class="sntContact">
+                            <img
+                              style="width:33px"
+                              src="https://user-images.githubusercontent.com/7879993/86842591-ce20fc00-c07b-11ea-84fe-ed4ca383a993.png"
+                              alt="email"
+                            />
+                            <span>www.f360.com.br</span>
+                          </div>
+
+                          <div class="sntLogo">
+                            <img
+                              width="176"
+                              :src="logoSelected"
+                              alt="Logo f360"
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
                   </table>
                 </div>
               </div>
@@ -179,6 +238,17 @@ export default {
           "https://user-images.githubusercontent.com/7879993/83878098-fd0d2080-a711-11ea-94ca-3b25d366bc2a.png"
       }
     ],
+    layout: [
+      {
+        text: "Layout padrão",
+        value: "padrao"
+      },
+      {
+        text: "Layout CS",
+        value: "cs"
+      }
+    ],
+    layoutSelected: "padrao",
     logoSelected:
       "https://user-images.githubusercontent.com/7879993/83878094-fc748a00-a711-11ea-833c-98bcc1019cbf.png"
   }),
@@ -242,7 +312,7 @@ body {
 
 .signature {
   width: 100%;
-  max-width: 960px;
+  //max-width: 960px;
   margin: 0 auto;
 
   &__header {
@@ -328,5 +398,57 @@ img {
 }
 i.v-icon.material-icons {
   display: none;
+}
+
+/* email Laout cs */
+.f360Snt {
+  font-family: "Roboto Slab", serif;
+  width: 900px;
+}
+.f360Snt .sntWrap {
+  width: 100%;
+}
+.sntContent {
+  margin-left: 75px;
+}
+
+.sntImg img {
+  width: 400px;
+}
+
+.sntContact {
+  margin-bottom: 5px;
+}
+.sntContact svg {
+  width: 40px;
+  margin-right: 15px;
+  margin-bottom: -10px;
+}
+.sntContact span {
+  font-size: 30px;
+  color: #212e47;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.sntIntro {
+  margin-bottom: 30px;
+}
+
+.sntName {
+  font-size: 50px;
+  color: #00adee;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+.sntFnct {
+  font-size: 18px;
+  color: #212e47;
+  font-weight: 300;
+  letter-spacing: 0px;
+}
+
+.sntLogo {
+  margin-top: 75px;
 }
 </style>
