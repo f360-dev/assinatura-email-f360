@@ -129,7 +129,11 @@
                     </tr>
                   </table>
 
-                  <table id="source" class="f360Snt" v-if="layoutSelected !== 'padrao'">
+                  <table
+                    id="source"
+                    class="f360Snt"
+                    v-if="layoutSelected !== 'padrao'"
+                  >
                     <tbody>
                       <tr class="sntWrap">
                         <td class="sntImg">
@@ -154,7 +158,7 @@
 
                           <div class="sntContact">
                             <img
-                              style="width:33px"
+                              style="width:15px"
                               src="https://user-images.githubusercontent.com/7879993/86842456-9914a980-c07b-11ea-9c43-0a56a01090f8.png"
                               alt="telefone"
                             />
@@ -162,7 +166,7 @@
                           </div>
                           <div class="sntContact">
                             <img
-                              style="width:33px"
+                              style="width:15px"
                               src="https://user-images.githubusercontent.com/7879993/86842591-ce20fc00-c07b-11ea-84fe-ed4ca383a993.png"
                               alt="email"
                             />
@@ -171,7 +175,7 @@
 
                           <div class="sntLogo">
                             <img
-                              width="176"
+                              width="125"
                               :src="logoSelected"
                               alt="Logo f360"
                             />
@@ -312,7 +316,7 @@ body {
 
 .signature {
   width: 100%;
-  //max-width: 960px;
+  max-width: 960px;
   margin: 0 auto;
 
   &__header {
@@ -403,7 +407,7 @@ i.v-icon.material-icons {
 /* email Laout cs */
 .f360Snt {
   font-family: "Roboto Slab", serif;
-  width: 900px;
+  width: 470px;
 }
 .f360Snt .sntWrap {
   width: 100%;
@@ -411,9 +415,12 @@ i.v-icon.material-icons {
 .sntContent {
   margin-left: 75px;
 }
+.sntImg {
+  width: 190px;
+}
 
 .sntImg img {
-  width: 400px;
+  width: 170px;
 }
 
 .sntContact {
@@ -425,18 +432,18 @@ i.v-icon.material-icons {
   margin-bottom: -10px;
 }
 .sntContact span {
-  font-size: 30px;
+  font-size: 16px;
   color: #212e47;
   font-weight: 300;
   letter-spacing: 1px;
 }
 
 .sntIntro {
-  margin-bottom: 30px;
+  margin-bottom: 12px;
 }
 
 .sntName {
-  font-size: 50px;
+  font-size: 26px;
   color: #00adee;
   font-weight: 800;
   letter-spacing: 1px;
@@ -449,6 +456,6 @@ i.v-icon.material-icons {
 }
 
 .sntLogo {
-  margin-top: 75px;
+  margin-top: 36px;
 }
 </style>
