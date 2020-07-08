@@ -158,7 +158,7 @@
 
                           <div class="sntContact">
                             <img
-                              style="width:15px"
+                              style="width:12px"
                               src="https://user-images.githubusercontent.com/7879993/86842456-9914a980-c07b-11ea-9c43-0a56a01090f8.png"
                               alt="telefone"
                             />
@@ -166,7 +166,7 @@
                           </div>
                           <div class="sntContact">
                             <img
-                              style="width:15px"
+                              style="width:12px"
                               src="https://user-images.githubusercontent.com/7879993/86842591-ce20fc00-c07b-11ea-84fe-ed4ca383a993.png"
                               alt="email"
                             />
@@ -175,7 +175,7 @@
 
                           <div class="sntLogo">
                             <img
-                              width="125"
+                              width="80"
                               :src="logoSelected"
                               alt="Logo f360"
                             />
@@ -416,11 +416,11 @@ i.v-icon.material-icons {
   margin-left: 75px;
 }
 .sntImg {
-  width: 190px;
+  width: 140px;
 }
 
 .sntImg img {
-  width: 170px;
+  width: 110px;
 }
 
 .sntContact {
@@ -432,7 +432,7 @@ i.v-icon.material-icons {
   margin-bottom: -10px;
 }
 .sntContact span {
-  font-size: 16px;
+  font-size: 10px;
   color: #212e47;
   font-weight: 300;
   letter-spacing: 1px;
@@ -443,19 +443,19 @@ i.v-icon.material-icons {
 }
 
 .sntName {
-  font-size: 26px;
+  font-size: 15px;
   color: #00adee;
   font-weight: 800;
   letter-spacing: 1px;
 }
 .sntFnct {
-  font-size: 18px;
+  font-size: 14px;
   color: #212e47;
   font-weight: 300;
   letter-spacing: 0px;
 }
 
 .sntLogo {
-  margin-top: 36px;
+  margin-top: 10px;
 }
 </style>
