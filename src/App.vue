@@ -153,6 +153,10 @@
                             v-show="/Camilly/.test(name)"
                             src="https://user-images.githubusercontent.com/7879993/96573465-8fb6f200-12a4-11eb-9790-79d92155e362.png"
                           />
+                          <img
+                            v-show="/Cecilia/.test(name)"
+                            src="https://user-images.githubusercontent.com/7879993/106491431-a0772680-6495-11eb-93ee-e83a3ccfc2a6.png"
+                          />
                         </td>
                         <td class="sntContent">
                           <div class="sntIntro">
