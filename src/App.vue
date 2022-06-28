@@ -1,26 +1,460 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+<div id="main-container">
+ <a-row>
+    <a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+      <div class="bg-container main-container-options">
+          <label>
+            Nome:
+            <a-input ref="start" v-model:value="assinatura.nome" placeholder="Nome" />
+          </label>
+          <label>
+            Função:
+            <a-input v-model:value="assinatura.funcao" placeholder="Função" />
+          </label>
+          <label>
+            Telefone #1
+            <a-input v-mask="'+55 (##) ####-####'" v-model:value="assinatura.foneUm" placeholder="Telefone #1" />
+          </label>
+          <label>
+            Telefone #2
+            <a-input v-mask="'+55 (##) ####-####'" v-model:value="assinatura.foneDois" placeholder="Telefone #2" />
+          </label>
+          <label style="width: 100%">
+            Logo:
+            <a-select style="width: 100%" placeholder="Logo" ref="logoSelect" v-model:value="logoSelected">
+              <template v-for="logo in assinatura.logos" :key="logo.value">
+                  <a-select-option :value="logo.value">{{logo.text}}</a-select-option>
+              </template>
+            </a-select>
+          </label>
+          <label style="width: 100%">
+            Selecione o Layout:
+            {{layoutSelected}}
+            <a-select style="width: 100%" placeholder="Layout" ref="selectLayout" v-model:value="layoutSelected">
+            <template v-for="l in assinatura.layout" :key="l.text">
+              <a-select-option :value="l.value">{{l.text}}</a-select-option>
+             </template> 
+            </a-select>
+          </label>
+          <label>
+            <a-upload v-model:file-list="fileList"  name="file" @change="handleChange">
+              <a-button>
+                  <upload-outlined></upload-outlined>
+                    Carregar um Logo
+              </a-button>
+            </a-upload>
+          </label>
+          <div class="main-container-btns">
+              <a-button class="js-copy" data-clipboard-target="#source" large type="primary">Copiar</a-button>
+              <a-button class="js-copy-src" data-clipboard-target="#source" large type="dashed">Copiar HTML</a-button>
+          </div>
+      </div>
+    </a-col>
+  </a-row>
+  <a-row>
+    <a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+      <div class="bg-container main-container-assinatura">
+          <div class="signature__source">
+                <div ref="sourceWrapper">
+                  <table
+                    ref="source"
+                    id="source"
+                    cellpadding="0"
+                    cellspacing="0"
+                    class="tf360"
+                    v-if="layoutSelected == 'padrao'"
+                  >
+                    <tr>
+                      <th class="tf360-style" style="font-size: 14px;">
+                        {{ assinatura.nome }} <br />
+                        <span
+                          style="font-weight: 600; font-size: 11px; padding-bottom: 50px; color: #404756;"
+                          >{{ assinatura.funcao }}</span
+                        >
+                      </th>
+                      <th
+                        style="background:url(https://user-images.githubusercontent.com/7879993/75486230-de68f200-598a-11ea-979a-85c884ea3983.png) bottom right no-repeat; background-position: center; height: 92px;"
+                        class="tf360-style"
+                        rowspan="4"
+                      ></th>
+                      <th
+                        style="padding-left: 20px"
+                        class="tf360-style"
+                        rowspan="4"
+                      >
+                        <img :src="logoSelected" alt="Logo F360°" />
+                      </th>
+                    </tr>
+                    <tr valign="bottom">
+                      <td style="color:#616161;">
+                        <img
+                          src="https://user-images.githubusercontent.com/7879993/75485599-c04ec200-5989-11ea-9d9d-6d5a516f93f5.png"
+                          width="16"
+                          alt="Telefone"
+                        />{{ assinatura.foneUm || "+55 (11) 2091-6178" }} <br />
+                      </td>
+                    </tr>
+                    <tr v-if="assinatura.foneDois" valign="bottom">
+                      <td style="color:#616161;">
+                        <img
+                          src="https://user-images.githubusercontent.com/7879993/75485599-c04ec200-5989-11ea-9d9d-6d5a516f93f5.png"
+                          width="16"
+                          alt="Telefone"
+                        />{{ assinatura.foneDois }} <br />
+                      </td>
+                    </tr>
+                    <tr valign="top">
+                      <td style="color:#616161;">
+                        <img
+                          src="https://user-images.githubusercontent.com/7879993/75485604-c17fef00-5989-11ea-8fe9-1557363f1e45.png"
+                          width="16"
+                          alt="Site"
+                        />
+                        www.f360.com.br
+                      </td>
+                    </tr>
+                  </table>
+
+                  <table
+                    id="source"
+                    ref="source"
+                    class="f360Snt"
+                    v-if="layoutSelected !== 'padrao'"
+                  >
+                    <tbody>
+                      <tr class="sntWrap">
+                        <td class="sntImg">
+                          <img
+                            v-show="/Julia/.test(assinatura.nome)"
+                            src="https://user-images.githubusercontent.com/7879993/86842848-248e3a80-c07c-11ea-8b80-5df2aaf2b589.png"
+                          />
+                          <img
+                            v-show="/Ana/.test(assinatura.nome)"
+                            src="https://user-images.githubusercontent.com/7879993/86842841-235d0d80-c07c-11ea-9d7a-ab4c85e9db7d.png"
+                          />
+                          <img
+                            v-show="/Cássia/.test(assinatura.nome)"
+                            src="https://user-images.githubusercontent.com/7879993/86842846-248e3a80-c07c-11ea-87b7-a86d5659a254.png"
+                          />
+                          <img
+                            v-show="/Camilly/.test(assinatura.nome)"
+                            src="https://user-images.githubusercontent.com/7879993/96573465-8fb6f200-12a4-11eb-9790-79d92155e362.png"
+                          />
+                          <img
+                            v-show="/Cecilia/.test(assinatura.nome)"
+                            src="https://user-images.githubusercontent.com/7879993/106491431-a0772680-6495-11eb-93ee-e83a3ccfc2a6.png"
+                          />
+                        </td>
+                        <td class="sntContent">
+                          <div class="sntIntro">
+                            <span class="sntName">{{ assinatura.nome }}</span> <br />
+                            <span class="sntFnct">{{ assinatura.funcao }}</span>
+                          </div>
+
+                          <div class="sntContact">
+                            <img
+                              style="width:12px"
+                              src="https://user-images.githubusercontent.com/7879993/86842456-9914a980-c07b-11ea-9c43-0a56a01090f8.png"
+                              alt="telefone"
+                            />
+                            <span>+55 (11) 2091-6198</span>
+                          </div>
+                          <div class="sntContact">
+                            <img
+                              style="width:12px"
+                              src="https://user-images.githubusercontent.com/7879993/86842591-ce20fc00-c07b-11ea-84fe-ed4ca383a993.png"
+                              alt="email"
+                            />
+                            <span>www.f360.com.br</span>
+                          </div>
+
+                          <div class="sntLogo">
+                            <img
+                              width="80"
+                              :src="logoSelected"
+                              alt="Logo f360"
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+          </div>
+      </div>
+    </a-col>
+  </a-row>
+</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
-
+import Clipboard from 'clipboard';
+import { message } from 'ant-design-vue';
+import { UploadOutlined } from '@ant-design/icons-vue';
+import { ref, onMounted  } from 'vue';
 export default {
   name: 'App',
-  components: {
-    HelloWorld,
+  components: { UploadOutlined },
+  setup(){
+    const start = ref();
+    const source = ref();
+
+    onMounted(() => {
+      const signatureClipboard  = new Clipboard('.js-copy');
+      const signatureClipboardSrc  = new Clipboard('.js-copy-src',{
+         text:() => {
+            return source.value.outerHTML;
+          }
+      });
+      const heandleMessage = (action) => {
+       const ishtml = !action ? 'HTML' : '';
+       message.success(`${ishtml} Copiado para área de transferência!`);
+      };
+     
+      signatureClipboard.on('success', () => {
+        heandleMessage('Copiar');
+      });
+      signatureClipboardSrc.on('success',() => {
+        heandleMessage('');
+      });
+
+     start.value.focus();
+    });
+
+    const layoutSelected = ref('padrao');
+    const logoSelected = ref('https://user-images.githubusercontent.com/7879993/83878094-fc748a00-a711-11ea-833c-98bcc1019cbf.png');
+    const assinatura = ref({
+      foneUm:'+55 (11) 2091-6178',
+      foneDois:'+55 (11) 2091-6178',
+      nome:'',
+      funcao:'',
+      layout: [
+      {text: "Layout padrão",value: "padrao"},
+      {text: "Layout CS",value: "cs"}
+      ],
+      logos: [
+      {
+        text: "Logo f360",
+        value:
+          "https://user-images.githubusercontent.com/7879993/83878094-fc748a00-a711-11ea-833c-98bcc1019cbf.png"
+      },
+      {
+        text: "Logo Contábil",
+        value:
+          "https://user-images.githubusercontent.com/7879993/83878098-fd0d2080-a711-11ea-94ca-3b25d366bc2a.png"
+      }
+    ],
+    });
+    return {assinatura, layoutSelected, logoSelected, start, source}
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+#app{
+ background: #f1f1f1;
+ height: 100%;
+ padding: 24px;
 }
+
+$primary: #779ec3;
+$copy: #2a3844;
+$secondary: #779ec3;
+$third: #665ef1;
+$purple: $third;
+$blue: $primary;
+$black: $copy;
+html {
+  height: 100%;
+  box-sizing: border-box;
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+}
+body {
+  margin: 0;
+  padding: 0;
+  background: #fafafa;
+  color: $copy;
+}
+.signature {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  &__header {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 40px;
+    span {
+      color: $copy;
+      font-family: "Open Sans";
+      font-weight: 600;
+      margin-left: 1rem;
+    }
+    svg {
+      width: calc(508px / 4);
+      height: calc(314px / 4);
+    }
+  }
+  .logo {
+    margin-bottom: -27px;
+  }
+  &__source {
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    position: relative;
+    > div {
+      margin: auto;
+      min-width: 400px;
+    }
+  }
+  &__step {
+    display: flex;
+    img {
+      width: 100%;
+      height: auto;
+      margin: auto;
+      padding: 4px 4px 0;
+    }
+  }
+}
+.tf360 {
+  border-collapse: collapse;
+  border-spacing: 0;
+  padding-top: 20px;
+}
+.tf360 td {
+  font-family: Tahoma, sans-serif;
+  font-size: 11px;
+  padding: 0 9px 0 0;
+  overflow: hidden;
+  word-break: normal;
+  font-weight: 500;
+}
+.tf360 th {
+  font-family: Tahoma, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  overflow: hidden;
+  word-break: normal;
+}
+.tf360 .tf360-style {
+  text-align: left;
+  padding-right: 20px;
+}
+img {
+  margin-right: 10px;
+}
+.foto {
+  padding-left: 10px;
+}
+i.v-icon.material-icons {
+  display: none;
+}
+/* email Laout cs */
+.f360Snt {
+  font-family: "Roboto Slab", serif;
+  width: 470px;
+}
+.f360Snt .sntWrap {
+  width: 100%;
+}
+.sntContent {
+  margin-left: 75px;
+}
+.sntImg {
+  width: 140px;
+}
+.sntImg img {
+  width: 110px;
+}
+.sntContact {
+  margin-bottom: 5px;
+}
+.sntContact svg {
+  width: 40px;
+  margin-right: 15px;
+  margin-bottom: -10px;
+}
+.sntContact span {
+  font-size: 10px;
+  color: #212e47;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+.sntIntro {
+  margin-bottom: 12px;
+}
+.sntName {
+  font-size: 15px;
+  color: #00adee;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+.sntFnct {
+  font-size: 14px;
+  color: #212e47;
+  font-weight: 300;
+  letter-spacing: 0px;
+}
+.sntLogo {
+  margin-top: 10px;
+}
+
+#main-container{
+  max-width: 980px;
+  margin: 0 auto;
+  gap: 16px;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+.bg-container{
+   background: #ffffff;
+   border-radius: 4px;
+}
+.main-container-options{
+  box-shadow: 5px 5px 5px -3px #00000020;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.main-container-btns{
+  display: flex;
+  width: 100%;
+  gap:8px;
+  margin-top: 8px;
+}
+.main-container-btns button{
+width: 100%;
+}
+
+.main-container-options label{
+  width: 100%;
+  color: #4e4e4e;
+}
+.main-container-assinatura{
+ display: grid;
+ place-items: center;
+ min-height: 100%;
+ width: 580px;
+ padding: 8px;
+ border: 2px dashed #779ec3;;
+}
+@media(max-width:800px){
+  .main-container-assinatura{
+    max-width: 300px;
+    display: flex;
+  }
+}
+
 </style>
