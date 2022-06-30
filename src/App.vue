@@ -547,6 +547,11 @@ width: 100%;
     max-width: 300px;
     display: flex;
   }
+  .instrucoes-info{
+    img{
+      max-width: 300px;
+    }
+  }
 }
 
 </style>
