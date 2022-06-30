@@ -23,13 +23,14 @@
             Logo:
             <a-select style="width: 100%" placeholder="Logo" ref="logoSelect" v-model:value="logoSelected">
               <template v-for="logo in assinatura.logos" :key="logo.value">
-                  <a-select-option :value="logo.value">{{logo.text}}</a-select-option>
+                  <a-select-option :value="logo.value">
+                    <a-spin v-if="isLoading" size="small" />{{logo.text}}
+                  </a-select-option>
               </template>
             </a-select>
           </label>
           <label style="width: 100%">
             Selecione o Layout:
-            {{layoutSelected}}
             <a-select style="width: 100%" placeholder="Layout" ref="selectLayout" v-model:value="layoutSelected">
             <template v-for="l in assinatura.layout" :key="l.text">
               <a-select-option :value="l.value">{{l.text}}</a-select-option>
@@ -37,7 +38,7 @@
             </a-select>
           </label>
           <label>
-            <a-upload v-model:file-list="fileList"  name="file" @change="handleChange">
+            <a-upload :multiple="false" :customRequest="handleUploadLogo" v-model:file-list="file"  name="file">
               <a-button>
                   <upload-outlined></upload-outlined>
                     Carregar um Logo
@@ -82,7 +83,7 @@
                         class="tf360-style"
                         rowspan="4"
                       >
-                        <img :src="logoSelected" alt="Logo F360°" />
+                        <img :src="logoSelected" alt="Logo F360°" width="120" />
                       </th>
                     </tr>
                     <tr valign="bottom">
@@ -168,7 +169,7 @@
                             <span>www.f360.com.br</span>
                           </div>
 
-                          <div class="sntLogo">
+                          <div>
                             <img
                               width="80"
                               :src="logoSelected"
@@ -191,15 +192,53 @@
 import Clipboard from 'clipboard';
 import { message } from 'ant-design-vue';
 import { UploadOutlined } from '@ant-design/icons-vue';
-import { ref, onMounted  } from 'vue';
+import { ref, onMounted,  } from 'vue';
+import { ref as storageRef, getStorage, uploadBytes, listAll  } from 'firebase/storage';
+
 export default {
   name: 'App',
   components: { UploadOutlined },
   setup(){
     const start = ref();
     const source = ref();
+    const file = ref(null);
+    const isLoading = ref(false);
+
+    const storage = getStorage();
+
+    const handleUploadLogo = (value) => {
+      const storageLogos = storageRef(storage, value.file.uid);
+      uploadBytes(storageLogos, value.file).then((response) => {
+        const { fullPath, bucket } = response.metadata;
+        logoSelected.value = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${fullPath}?alt=media`;
+        assinatura.value.logos.push({ 
+        text: `Upload ${assinatura.value.logos.length + 1}`,
+        value: logoSelected.value
+        });
+        file.value = null;
+        message.success('Arquivo salvo com sucesso!');
+      });
+    }
+    
+    const handleListLogos = () => {
+      const allLogos = storageRef(storage);
+      listAll(allLogos)
+        .then(res => {
+        res.items.forEach(logo => {
+          const {bucket,fullPath} = logo;
+          const url = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${fullPath}?alt=media`;
+          assinatura.value.logos.push({ 
+          text: `Upload ${assinatura.value.logos.length + 1}`,
+          value: url
+          });
+        });
+      }).finally(() => {
+        isLoading.value = false;
+      })
+    };
 
     onMounted(() => {
+      handleListLogos();
       const signatureClipboard  = new Clipboard('.js-copy');
       const signatureClipboardSrc  = new Clipboard('.js-copy-src',{
          text:() => {
@@ -245,7 +284,7 @@ export default {
       }
     ],
     });
-    return {assinatura, layoutSelected, logoSelected, start, source}
+    return {assinatura, layoutSelected, logoSelected, start, source, handleUploadLogo, file, isLoading }
   }
 }
 </script>
@@ -419,6 +458,8 @@ i.v-icon.material-icons {
    border-radius: 4px;
 }
 .main-container-options{
+  overflow: hidden;
+  max-width: 350px;
   box-shadow: 5px 5px 5px -3px #00000020;
   padding: 16px;
   display: flex;
