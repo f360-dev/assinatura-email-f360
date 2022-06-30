@@ -8,12 +8,12 @@ import 'ant-design-vue/dist/antd.css';
 const app = createApp(App);
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBLmOl4_ZWCD-2u8r6-zu0Joz-1GRVrTIc",
-  authDomain: "f360-meail.firebaseapp.com",
-  projectId: "f360-meail",
-  storageBucket: "f360-meail.appspot.com",
-  messagingSenderId: "486308645517",
-  appId: "1:486308645517:web:1e05528b08c73ae80d70c4"
+  apiKey: "AIzaSyBI9jtYLZbYkeQqmHLn6MOqrJcRiVchZAg",
+  authDomain: "assinatura-email-f360.firebaseapp.com",
+  projectId: "assinatura-email-f360",
+  storageBucket: "assinatura-email-f360.appspot.com",
+  messagingSenderId: "201906170698",
+  appId: "1:201906170698:web:88446e250283e23f33afb3"
 };
 
 initializeApp(firebaseConfig);

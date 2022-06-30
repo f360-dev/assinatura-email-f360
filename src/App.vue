@@ -37,14 +37,21 @@
              </template> 
             </a-select>
           </label>
-          <label>
-            <a-upload :multiple="false" :customRequest="handleUploadLogo" v-model:file-list="file"  name="file">
-              <a-button>
-                  <upload-outlined></upload-outlined>
-                    Carregar um Logo
-              </a-button>
-            </a-upload>
-          </label>
+          <fieldset class="main-container-upload">
+            <legend>Upload</legend>
+            <label>
+              Nome do logo:
+              <a-input v-model:value="nomeLogo" placeholder="Nome do Logo" />
+            </label>
+            <label>
+              <a-upload :multiple="false" :customRequest="handleUploadLogo" v-model:file-list="file"  name="file">
+                <a-button>
+                    <upload-outlined></upload-outlined>
+                      Carregar um Logo
+                </a-button>
+              </a-upload>
+            </label>
+          </fieldset>
           <div class="main-container-btns">
               <a-button class="js-copy" data-clipboard-target="#source" large type="primary">Copiar</a-button>
               <a-button class="js-copy-src" data-clipboard-target="#source" large type="dashed">Copiar HTML</a-button>
@@ -185,6 +192,16 @@
       </div>
     </a-col>
   </a-row>
+  <a-row class="instrucoes">
+    <a-col class="instrucoes-info">
+      <span style="margin:2px 5px;">Vá em configuraçãoes.</span>
+      <img src="@/assets/ex1.gif" />
+    </a-col>
+    <a-col class="instrucoes-info">
+      <span style="margin:2px 5px;">Cole e ative sua assinatura.</span>
+      <img src="@/assets/ex2.gif" />
+    </a-col>
+  </a-row>
 </div>
 </template>
 
@@ -201,18 +218,21 @@ export default {
   setup(){
     const start = ref();
     const source = ref();
+
     const file = ref(null);
+    const nomeLogo = ref('');
+
     const isLoading = ref(false);
 
     const storage = getStorage();
 
     const handleUploadLogo = (value) => {
-      const storageLogos = storageRef(storage, value.file.uid);
+      const storageLogos = storageRef(storage, `${nomeLogo.value || 'Upload'}--${value.file.uid}`);
       uploadBytes(storageLogos, value.file).then((response) => {
         const { fullPath, bucket } = response.metadata;
         logoSelected.value = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${fullPath}?alt=media`;
         assinatura.value.logos.push({ 
-        text: `Upload ${assinatura.value.logos.length + 1}`,
+        text: nomeLogo.value,
         value: logoSelected.value
         });
         file.value = null;
@@ -224,11 +244,14 @@ export default {
       const allLogos = storageRef(storage);
       listAll(allLogos)
         .then(res => {
-        res.items.forEach(logo => {
+        if(!res.items) return;
+        res.items.forEach((logo, index) => {
           const {bucket,fullPath} = logo;
+          const [ nomeArquivo ] = fullPath.split('--');
+          console.log(nomeArquivo, fullPath);
           const url = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${fullPath}?alt=media`;
           assinatura.value.logos.push({ 
-          text: `Upload ${assinatura.value.logos.length + 1}`,
+          text: nomeArquivo === 'Upload' ? `${index} - ${nomeArquivo}`:nomeArquivo,
           value: url
           });
         });
@@ -284,7 +307,7 @@ export default {
       }
     ],
     });
-    return {assinatura, layoutSelected, logoSelected, start, source, handleUploadLogo, file, isLoading }
+    return {assinatura, layoutSelected, logoSelected, start, source, handleUploadLogo, file, isLoading, nomeLogo }
   }
 }
 </script>
@@ -490,6 +513,34 @@ width: 100%;
  width: 580px;
  padding: 8px;
  border: 2px dashed #779ec3;;
+}
+.main-container-upload{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px;
+  background: #f9f9f9;
+  max-width: 300px;
+  overflow: hidden;
+  legend{
+      font-size: 12px;
+      color: $primary;
+  }
+}
+.instrucoes{
+  display: flex;
+  margin-top: 48px;
+}
+.instrucoes-info{
+   display: flex;
+   flex-direction: column;
+   background: #f1f1f1;
+   margin: 2px;
+   padding: 2px;
+   span{
+    color: $primary;
+    font-weight: bold;
+   }
 }
 @media(max-width:800px){
   .main-container-assinatura{
