@@ -29,6 +29,16 @@
               </template>
             </a-select>
           </label>
+          <label v-show="csUpload" style="width: 100%">
+            Fotos:
+            <a-select style="width: 100%" placeholder="Foto" ref="FotoSelect" v-model:value="urlFoto">
+              <template v-for="foto in fotosCs " :key="foto.value">
+                  <a-select-option :value="foto.value">
+                    <a-spin v-if="isLoading" size="small" />{{foto.text}}
+                  </a-select-option>
+              </template>
+            </a-select>
+          </label>
           <label style="width: 100%">
             Selecione o Layout:
             <a-select style="width: 100%" placeholder="Layout" ref="selectLayout" v-model:value="layoutSelected">
@@ -38,16 +48,16 @@
             </a-select>
           </label>
           <fieldset class="main-container-upload">
-            <legend>Upload</legend>
+            <legend>Upload {{csUpload ? 'Foto': ''}}</legend>
             <label>
-              Nome do logo:
-              <a-input v-model:value="nomeLogo" placeholder="Nome do Logo" />
+              Nome do {{csUpload ? 'Foto': 'Logo'}}:
+              <a-input v-model:value="nomeLogo" :placeholder="`${csUpload ? 'Nome da Foto': 'Nome do Logo'}`" />
             </label>
             <label>
               <a-upload :multiple="false" :customRequest="handleUploadLogo" v-model:file-list="file"  name="file">
-                <a-button>
+                <a-button :disabled="!nomeLogo">
                     <upload-outlined></upload-outlined>
-                      Carregar um Logo
+                      Carregar um {{csUpload ? 'Foto': 'Logo'}}:
                 </a-button>
               </a-upload>
             </label>
@@ -132,26 +142,7 @@
                     <tbody>
                       <tr class="sntWrap">
                         <td class="sntImg">
-                          <img
-                            v-show="/Julia/.test(assinatura.nome)"
-                            src="https://user-images.githubusercontent.com/7879993/86842848-248e3a80-c07c-11ea-8b80-5df2aaf2b589.png"
-                          />
-                          <img
-                            v-show="/Ana/.test(assinatura.nome)"
-                            src="https://user-images.githubusercontent.com/7879993/86842841-235d0d80-c07c-11ea-9d7a-ab4c85e9db7d.png"
-                          />
-                          <img
-                            v-show="/Cássia/.test(assinatura.nome)"
-                            src="https://user-images.githubusercontent.com/7879993/86842846-248e3a80-c07c-11ea-87b7-a86d5659a254.png"
-                          />
-                          <img
-                            v-show="/Camilly/.test(assinatura.nome)"
-                            src="https://user-images.githubusercontent.com/7879993/96573465-8fb6f200-12a4-11eb-9790-79d92155e362.png"
-                          />
-                          <img
-                            v-show="/Cecilia/.test(assinatura.nome)"
-                            src="https://user-images.githubusercontent.com/7879993/106491431-a0772680-6495-11eb-93ee-e83a3ccfc2a6.png"
-                          />
+                          <img :src="urlFoto"/>
                         </td>
                         <td class="sntContent">
                           <div class="sntIntro">
@@ -209,81 +200,23 @@
 import Clipboard from 'clipboard';
 import { message } from 'ant-design-vue';
 import { UploadOutlined } from '@ant-design/icons-vue';
-import { ref, onMounted,  } from 'vue';
-import { ref as storageRef, getStorage, uploadBytes, listAll  } from 'firebase/storage';
+import { ref, onMounted, computed, watch } from 'vue';
+import { firebase  } from './useFirebase';
 
 export default {
   name: 'App',
   components: { UploadOutlined },
   setup(){
+    const { defaultAvatar, storage, listAll, storageRef, uploadBytes } = firebase;
     const start = ref();
     const source = ref();
-
     const file = ref(null);
     const nomeLogo = ref('');
-
     const isLoading = ref(false);
-
-    const storage = getStorage();
-
-    const handleUploadLogo = (value) => {
-      const storageLogos = storageRef(storage, `${nomeLogo.value || 'Upload'}--${value.file.uid}`);
-      uploadBytes(storageLogos, value.file).then((response) => {
-        const { fullPath, bucket } = response.metadata;
-        logoSelected.value = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${fullPath}?alt=media`;
-        assinatura.value.logos.push({ 
-        text: nomeLogo.value,
-        value: logoSelected.value
-        });
-        file.value = null;
-        message.success('Arquivo salvo com sucesso!');
-      });
-    }
-    
-    const handleListLogos = () => {
-      const allLogos = storageRef(storage);
-      listAll(allLogos)
-        .then(res => {
-        if(!res.items) return;
-        res.items.forEach((logo, index) => {
-          const {bucket,fullPath} = logo;
-          const [ nomeArquivo ] = fullPath.split('--');
-          console.log(nomeArquivo, fullPath);
-          const url = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${fullPath}?alt=media`;
-          assinatura.value.logos.push({ 
-          text: nomeArquivo === 'Upload' ? `${index} - ${nomeArquivo}`:nomeArquivo,
-          value: url
-          });
-        });
-      }).finally(() => {
-        isLoading.value = false;
-      })
-    };
-
-    onMounted(() => {
-      handleListLogos();
-      const signatureClipboard  = new Clipboard('.js-copy');
-      const signatureClipboardSrc  = new Clipboard('.js-copy-src',{
-         text:() => {
-            return source.value.outerHTML;
-          }
-      });
-      const heandleMessage = (action) => {
-       const ishtml = !action ? 'HTML' : '';
-       message.success(`${ishtml} Copiado para área de transferência!`);
-      };
-     
-      signatureClipboard.on('success', () => {
-        heandleMessage('Copiar');
-      });
-      signatureClipboardSrc.on('success',() => {
-        heandleMessage('');
-      });
-
-     start.value.focus();
-    });
-
+    const fotosCs = ref([]);
+    const urlFoto = ref(defaultAvatar);
     const layoutSelected = ref('padrao');
+    const csUpload = computed(() => layoutSelected.value === 'cs');
     const logoSelected = ref('https://user-images.githubusercontent.com/7879993/83878094-fc748a00-a711-11ea-833c-98bcc1019cbf.png');
     const assinatura = ref({
       foneUm:'+55 (11) 2091-6178',
@@ -307,7 +240,107 @@ export default {
       }
     ],
     });
-    return {assinatura, layoutSelected, logoSelected, start, source, handleUploadLogo, file, isLoading, nomeLogo }
+    
+    const getStorageName = (value) => {
+      return csUpload.value ? 
+      storageRef(storage, `cs/${nomeLogo.value}--${value.file.uid}`)
+      :storageRef(storage, `${nomeLogo.value || 'Upload'}--${value.file.uid}`);
+    };
+    const setCurrentLogo = (response) => {
+      const { fullPath, bucket } = response.metadata;
+      if(!csUpload.value){
+         logoSelected.value = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${fullPath}?alt=media`;
+              assinatura.value.logos.push({ 
+              text: !nomeLogo.value 
+                ? `${assinatura.value.logos.length + 1} - Upload` 
+                : nomeLogo.value,
+              value: logoSelected.value
+        });
+        return;
+      }
+      const formatFullPatch = fullPath.replace('/', '%2F');
+      urlFoto.value = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${formatFullPatch}?alt=media`;
+              fotosCs.value.push({ 
+              text: !nomeLogo.value 
+                ? `${fotosCs.value.length + 1} - Upload` 
+                : nomeLogo.value,
+              value: urlFoto.value
+        });
+    };
+    const handleUploadLogo = (value) => {
+      const storageLogos = getStorageName(value)
+      uploadBytes(storageLogos, value.file).then((response) => {
+        setCurrentLogo(response);
+        file.value = null;
+        message.success('Arquivo salvo com sucesso!');
+      });
+    }
+    const handleListLogos = () => {
+      const allLogos = storageRef(storage);
+      listAll(allLogos)
+        .then(res => {
+        if(!res.items) return;
+        res.items.forEach((logo, index) => {
+          const {bucket,fullPath} = logo;
+          const [ nomeArquivo ] = fullPath.split('--');
+          const url = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${fullPath}?alt=media`;
+          assinatura.value.logos.push({ 
+          text: nomeArquivo === 'Upload' ? `${index} - ${nomeArquivo}`:nomeArquivo,
+          value: url
+          });
+        });
+      }).finally(() => {
+        isLoading.value = false;
+      })
+    };
+    const handleListFotosCs = () => {
+     const allFotos = storageRef(storage, 'cs');
+         listAll(allFotos)
+        .then(res => {
+          res.items.forEach((logo) => {
+          const {bucket,fullPath} = logo;
+          const formatFullPatch = fullPath.replace('/', '%2F');
+          const [ nomeArquivo ] = fullPath.split('--');
+
+          const url = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${formatFullPatch}?alt=media`;
+          fotosCs.value.push({ 
+          text: url === defaultAvatar ? `Padrão` : nomeArquivo,
+          value: url
+          });
+        });
+        });
+    };
+
+    watch(layoutSelected,() => { 
+      nomeLogo.value = '';
+    });
+
+     onMounted(() => {
+      handleListLogos();
+      handleListFotosCs();
+
+      const signatureClipboard  = new Clipboard('.js-copy');
+      const signatureClipboardSrc  = new Clipboard('.js-copy-src',{
+         text:() => {
+            return source.value.outerHTML;
+          }
+      });
+      const heandleMessage = (action) => {
+       const ishtml = !action ? 'HTML' : '';
+       message.success(`${ishtml} Copiado para área de transferência!`);
+      };
+     
+      signatureClipboard.on('success', () => {
+        heandleMessage('Copiar');
+      });
+      signatureClipboardSrc.on('success',() => {
+        heandleMessage('');
+      });
+
+     start.value.focus();
+    });
+
+    return {assinatura, layoutSelected, logoSelected, start, source, handleUploadLogo, file, isLoading, nomeLogo, csUpload, fotosCs, urlFoto }
   }
 }
 </script>
@@ -317,6 +350,7 @@ export default {
  background: #f1f1f1;
  height: 100%;
  padding: 24px;
+ min-height: 700px;
 }
 
 $primary: #779ec3;
@@ -529,6 +563,7 @@ width: 100%;
 }
 .instrucoes{
   display: flex;
+  justify-content: center;
   margin-top: 48px;
 }
 .instrucoes-info{
