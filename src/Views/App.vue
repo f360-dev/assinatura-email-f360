@@ -201,7 +201,7 @@ import Clipboard from 'clipboard';
 import { message } from 'ant-design-vue';
 import { UploadOutlined } from '@ant-design/icons-vue';
 import { ref, onMounted, computed, watch } from 'vue';
-import { firebase  } from './useFirebase';
+import { firebase  } from '../useFirebase';
 
 export default {
   name: 'App',
