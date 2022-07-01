@@ -207,12 +207,11 @@ export default {
   name: 'App',
   components: { UploadOutlined },
   setup(){
-    const { defaultAvatar, storage, listAll, storageRef, uploadBytes } = firebase;
+    const { defaultAvatar, storage, storageRef, uploadBytes, handleListFotosCs, handleListLogos, isLoading} = firebase;
     const start = ref();
     const source = ref();
     const file = ref(null);
     const nomeLogo = ref('');
-    const isLoading = ref(false);
     const fotosCs = ref([]);
     const urlFoto = ref(defaultAvatar);
     const layoutSelected = ref('padrao');
@@ -275,49 +274,14 @@ export default {
         message.success('Arquivo salvo com sucesso!');
       });
     }
-    const handleListLogos = () => {
-      const allLogos = storageRef(storage);
-      listAll(allLogos)
-        .then(res => {
-        if(!res.items) return;
-        res.items.forEach((logo, index) => {
-          const {bucket,fullPath} = logo;
-          const [ nomeArquivo ] = fullPath.split('--');
-          const url = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${fullPath}?alt=media`;
-          assinatura.value.logos.push({ 
-          text: nomeArquivo === 'Upload' ? `${index} - ${nomeArquivo}`:nomeArquivo,
-          value: url
-          });
-        });
-      }).finally(() => {
-        isLoading.value = false;
-      })
-    };
-    const handleListFotosCs = () => {
-     const allFotos = storageRef(storage, 'cs');
-         listAll(allFotos)
-        .then(res => {
-          res.items.forEach((logo) => {
-          const {bucket,fullPath} = logo;
-          const formatFullPatch = fullPath.replace('/', '%2F');
-          const [ nomeArquivo ] = fullPath.split('--');
-
-          const url = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${formatFullPatch}?alt=media`;
-          fotosCs.value.push({ 
-          text: url === defaultAvatar ? `Padrão` : nomeArquivo,
-          value: url
-          });
-        });
-        });
-    };
-
+    
     watch(layoutSelected,() => { 
       nomeLogo.value = '';
     });
 
      onMounted(() => {
-      handleListLogos();
-      handleListFotosCs();
+      handleListLogos(assinatura.value.logos);
+      handleListFotosCs(fotosCs.value);
 
       const signatureClipboard  = new Clipboard('.js-copy');
       const signatureClipboardSrc  = new Clipboard('.js-copy-src',{
@@ -351,6 +315,7 @@ export default {
  height: 100%;
  padding: 24px;
  min-height: 700px;
+ margin: 0;
 }
 
 $primary: #779ec3;
