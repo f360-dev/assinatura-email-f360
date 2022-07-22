@@ -1,9 +1,12 @@
-import Vue from "vue";
-import App from "@/App.vue";
-import "@/plugins/vuetify";
+import { createApp } from 'vue';
+import Antd from 'ant-design-vue';
+import VueTheMask from 'vue-the-mask';
+import Home from './Home.vue';
+import { router } from './routes';
+import 'ant-design-vue/dist/antd.css';
 
-Vue.config.productionTip = false;
-
-new Vue({
-  render: h => h(App)
-}).$mount("#app");
+const app = createApp(Home);
+app
+.use(router)
+.use(VueTheMask)
+.use(Antd).mount('#app');
