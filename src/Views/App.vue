@@ -186,11 +186,11 @@
   <a-row class="instrucoes">
     <a-col class="instrucoes-info">
       <span style="margin:2px 5px;">Vá em configuraçãoes.</span>
-      <img src="@/assets/ex1.gif" />
+      <img :src="require(`@/assets/ex1.gif`)" />
     </a-col>
     <a-col class="instrucoes-info">
       <span style="margin:2px 5px;">Cole e ative sua assinatura.</span>
-      <img src="@/assets/ex2.gif" />
+      <img :src="require(`@/assets/ex2.gif`)" />
     </a-col>
   </a-row>
 </div>
