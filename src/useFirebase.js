@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { message } from 'ant-design-vue';
+import { message } from "ant-design-vue";
 import {
   deleteObject,
   getStorage,
@@ -25,7 +25,14 @@ const defaultAvatar =
 const storage = getStorage();
 const isLoading = ref(false);
 
-const handleListLogos = (arrayLogos) => {
+const handleSetDefaultLogo = (arrayLogos, logoSelected) => {
+  const defaultLogo = arrayLogos.find((logo) => logo.text === "F360");
+  if (defaultLogo) {
+    const logoUrl = JSON.parse(JSON.stringify(defaultLogo));
+    logoSelected.value = logoUrl.value;
+  }
+};
+const handleListLogos = (arrayLogos, logoSelected) => {
   const allLogos = storageRef(storage);
   listAll(allLogos)
     .then((res) => {
@@ -41,6 +48,8 @@ const handleListLogos = (arrayLogos) => {
               : nomeArquivo,
           value: url,
         });
+
+        handleSetDefaultLogo(arrayLogos, logoSelected);
       });
     })
     .finally(() => {
@@ -76,12 +85,10 @@ const handleDeleteFile = (url) => {
   const rawRef = array[array.length - 1];
   const fileRef = replaceRefHelper(rawRef);
   const desertRef = storageRef(storage, fileRef);
-  console.log(desertRef);
   // Delete the file
-  deleteObject(desertRef)
-    .then(() => {
-      message.info('A Imagem foi Deletada');
-    })
+  deleteObject(desertRef).then(() => {
+    message.info("A Imagem foi Deletada");
+  });
 };
 
 export const firebase = {
