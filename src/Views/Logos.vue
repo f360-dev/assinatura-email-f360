@@ -19,6 +19,49 @@
             Telefone #2
             <a-input v-mask="'+55 (##) ####-####'" v-model:value="assinatura.foneDois" placeholder="Telefone #2" />
           </label>
+          <label style="width: 100%">
+            Logo:
+            <a-select style="width: 100%" placeholder="Logo" ref="logoSelect" v-model:value="logoSelected">
+              <template v-for="logo in assinatura.logos" :key="logo.value">
+                  <a-select-option :value="logo.value">
+                    <a-spin v-if="isLoading" size="small" />{{logo.text}}
+                  </a-select-option>
+              </template>
+            </a-select>
+          </label>
+          <label v-show="csUpload" style="width: 100%">
+            Fotos:
+            <a-select style="width: 100%" placeholder="Foto" ref="FotoSelect" v-model:value="urlFoto">
+              <template v-for="foto in fotosCs " :key="foto.value">
+                  <a-select-option :value="foto.value">
+                    <a-spin v-if="isLoading" size="small" />{{foto.text}}
+                  </a-select-option>
+              </template>
+            </a-select>
+          </label>
+          <label style="width: 100%">
+            Selecione o Layout:
+            <a-select style="width: 100%" placeholder="Layout" ref="selectLayout" v-model:value="layoutSelected">
+            <template v-for="l in assinatura.layout" :key="l.text">
+              <a-select-option :value="l.value">{{l.text}}</a-select-option>
+             </template> 
+            </a-select>
+          </label>
+          <fieldset class="main-container-upload">
+            <legend>Upload {{csUpload ? 'Foto': ''}}</legend>
+            <label>
+              Nome do {{csUpload ? 'Foto': 'Logo'}}:
+              <a-input v-model:value="nomeLogo" :placeholder="`${csUpload ? 'Nome da Foto': 'Nome do Logo'}`" />
+            </label>
+            <label>
+              <a-upload :multiple="false" :customRequest="handleUploadLogo" v-model:file-list="file"  name="file">
+                <a-button :disabled="!nomeLogo">
+                    <upload-outlined></upload-outlined>
+                      Carregar um {{csUpload ? 'Foto': 'Logo'}}:
+                </a-button>
+              </a-upload>
+            </label>
+          </fieldset>
           <div class="main-container-btns">
               <a-button class="js-copy" data-clipboard-target="#source" large type="primary">Copiar</a-button>
               <a-button class="js-copy-src" data-clipboard-target="#source" large type="dashed">Copiar HTML</a-button>
@@ -156,11 +199,13 @@
 <script>
 import Clipboard from 'clipboard';
 import { message } from 'ant-design-vue';
+import { UploadOutlined } from '@ant-design/icons-vue';
 import { ref, onMounted, computed, watch } from 'vue';
 import { firebase  } from '../useFirebase';
 
 export default {
-  name: 'App',
+  name: 'Logos',
+  components: { UploadOutlined },
   setup(){
     const { defaultAvatar, storage, storageRef, uploadBytes, handleListFotosCs, handleListLogos, isLoading} = firebase;
     const start = ref();
@@ -171,10 +216,10 @@ export default {
     const urlFoto = ref(defaultAvatar);
     const layoutSelected = ref('padrao');
     const csUpload = computed(() => layoutSelected.value === 'cs');
-    const logoSelected = ref('https://firebasestorage.googleapis.com/v0/b/assinatura-email-f360.appspot.com/o/F360--vc-upload-1671020745626-5?alt=media');
+    const logoSelected = ref('https://user-images.githubusercontent.com/7879993/83878094-fc748a00-a711-11ea-833c-98bcc1019cbf.png');
     const assinatura = ref({
       foneUm:'+55 (11) 2091-6178',
-      foneDois:'',
+      foneDois:'+55 (11) 2091-6178',
       nome:'',
       funcao:'',
       layout: [
