@@ -1,163 +1,209 @@
 <template>
-<div id="main-container">
- <a-row>
-    <a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-      <div class="bg-container main-container-options">
+  <div id="main-container">
+    <a-row>
+      <a-col
+        :xs="24"
+        :sm="24"
+        :md="24"
+        :lg="24"
+        :xl="24"
+      >
+        <div class="bg-container main-container-options">
           <label>
             Nome:
-            <a-input ref="start" v-model:value="assinatura.nome" placeholder="Nome" />
+            <a-input
+              ref="start"
+              v-model:value="assinatura.nome"
+              placeholder="Nome"
+            />
           </label>
           <label>
             Função:
-            <a-input v-model:value="assinatura.funcao" placeholder="Função" />
+            <a-input
+              v-model:value="assinatura.funcao"
+              placeholder="Função"
+            />
           </label>
           <label>
             Telefone #1
-            <a-input v-mask="'+55 (##) ####-####'" v-model:value="assinatura.foneUm" placeholder="Telefone #1" />
+            <a-input
+              v-mask="'+55 (##) ####-####'"
+              v-model:value="assinatura.foneUm"
+              placeholder="Telefone #1"
+            />
           </label>
           <label>
             Telefone #2
-            <a-input v-mask="'+55 (##) ####-####'" v-model:value="assinatura.foneDois" placeholder="Telefone #2" />
+            <a-input
+              v-mask="'+55 (##) ####-####'"
+              v-model:value="assinatura.foneDois"
+              placeholder="Telefone #2"
+            />
           </label>
           <div class="main-container-btns">
-              <a-button class="js-copy" data-clipboard-target="#source" large type="primary">Copiar</a-button>
-              <a-button class="js-copy-src" data-clipboard-target="#source" large type="dashed">Copiar HTML</a-button>
+            <a-button
+              class="js-copy"
+              data-clipboard-target="#source"
+              large
+              type="primary"
+            >Copiar</a-button>
+            <a-button
+              class="js-copy-src"
+              data-clipboard-target="#source"
+              large
+              type="dashed"
+            >Copiar HTML</a-button>
           </div>
-      </div>
-    </a-col>
-  </a-row>
-  <a-row>
-    <a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-      <div class="bg-container main-container-assinatura">
+        </div>
+      </a-col>
+    </a-row>
+    <a-row>
+      <a-col
+        :xs="24"
+        :sm="24"
+        :md="24"
+        :lg="24"
+        :xl="24"
+      >
+        <div class="bg-container main-container-assinatura">
           <div class="signature__source">
-                <div ref="sourceWrapper">
-                  <table
-                    ref="source"
-                    id="source"
-                    cellpadding="0"
-                    cellspacing="0"
-                    class="tf360"
-                    v-if="layoutSelected == 'padrao'"
+            <div ref="sourceWrapper">
+              <table
+                ref="source"
+                id="source"
+                cellpadding="0"
+                cellspacing="0"
+                class="tf360"
+                v-if="layoutSelected == 'padrao'"
+              >
+                <tr>
+                  <th
+                    class="tf360-style"
+                    style="font-size: 14px;"
                   >
-                    <tr>
-                      <th class="tf360-style" style="font-size: 14px;">
-                        {{ assinatura.nome }} <br />
-                        <span
-                          style="font-weight: 600; font-size: 11px; padding-bottom: 50px; color: #404756;"
-                          >{{ assinatura.funcao }}</span
-                        >
-                      </th>
-                      <th
-                        style="background:url(https://user-images.githubusercontent.com/7879993/75486230-de68f200-598a-11ea-979a-85c884ea3983.png) bottom right no-repeat; background-position: center; height: 92px;"
-                        class="tf360-style"
-                        rowspan="4"
-                      ></th>
-                      <th
-                        style="padding-left: 20px"
-                        class="tf360-style"
-                        rowspan="4"
-                      >
-                        <img :src="logoSelected" alt="Logo F360°" width="120" />
-                      </th>
-                    </tr>
-                    <tr valign="bottom">
-                      <td style="color:#616161;">
+                    {{ assinatura.nome }} <br />
+                    <span style="font-weight: 600; font-size: 11px; padding-bottom: 50px; color: #404756;">{{ assinatura.funcao }}</span>
+                  </th>
+                  <th
+                    style="background:url(https://user-images.githubusercontent.com/7879993/75486230-de68f200-598a-11ea-979a-85c884ea3983.png) bottom right no-repeat; background-position: center; height: 92px;"
+                    class="tf360-style"
+                    rowspan="4"
+                  ></th>
+                  <th
+                    style="padding-left: 20px"
+                    class="tf360-style"
+                    rowspan="4"
+                  >
+                    <a-spin v-if="!logoSelected" />
+                    <img
+                      v-else
+                      :src="logoSelected"
+                      alt="Logo F360°"
+                      width="120"
+                    />
+                  </th>
+                </tr>
+                <tr valign="bottom">
+                  <td style="color:#616161;">
+                    <img
+                      src="https://user-images.githubusercontent.com/7879993/75485599-c04ec200-5989-11ea-9d9d-6d5a516f93f5.png"
+                      width="16"
+                      alt="Telefone"
+                    />{{ assinatura.foneUm || "+55 (11) 2091-6178" }} <br />
+                  </td>
+                </tr>
+                <tr
+                  v-if="assinatura.foneDois"
+                  valign="bottom"
+                >
+                  <td style="color:#616161;">
+                    <img
+                      src="https://user-images.githubusercontent.com/7879993/75485599-c04ec200-5989-11ea-9d9d-6d5a516f93f5.png"
+                      width="16"
+                      alt="Telefone"
+                    />{{ assinatura.foneDois }} <br />
+                  </td>
+                </tr>
+                <tr valign="top">
+                  <td style="color:#616161;">
+                    <img
+                      src="https://user-images.githubusercontent.com/7879993/75485604-c17fef00-5989-11ea-8fe9-1557363f1e45.png"
+                      width="16"
+                      alt="Site"
+                    />
+                    www.f360.com.br
+                  </td>
+                </tr>
+              </table>
+
+              <table
+                id="source"
+                ref="source"
+                class="f360Snt"
+                v-if="layoutSelected !== 'padrao'"
+              >
+                <tbody>
+                  <tr class="sntWrap">
+                    <td class="sntImg">
+                      <img :src="urlFoto" />
+                    </td>
+                    <td class="sntContent">
+                      <div class="sntIntro">
+                        <span class="sntName">{{ assinatura.nome }}</span> <br />
+                        <span class="sntFnct">{{ assinatura.funcao }}</span>
+                      </div>
+
+                      <div class="sntContact">
                         <img
-                          src="https://user-images.githubusercontent.com/7879993/75485599-c04ec200-5989-11ea-9d9d-6d5a516f93f5.png"
-                          width="16"
-                          alt="Telefone"
-                        />{{ assinatura.foneUm || "+55 (11) 2091-6178" }} <br />
-                      </td>
-                    </tr>
-                    <tr v-if="assinatura.foneDois" valign="bottom">
-                      <td style="color:#616161;">
-                        <img
-                          src="https://user-images.githubusercontent.com/7879993/75485599-c04ec200-5989-11ea-9d9d-6d5a516f93f5.png"
-                          width="16"
-                          alt="Telefone"
-                        />{{ assinatura.foneDois }} <br />
-                      </td>
-                    </tr>
-                    <tr valign="top">
-                      <td style="color:#616161;">
-                        <img
-                          src="https://user-images.githubusercontent.com/7879993/75485604-c17fef00-5989-11ea-8fe9-1557363f1e45.png"
-                          width="16"
-                          alt="Site"
+                          style="width:12px"
+                          src="https://user-images.githubusercontent.com/7879993/86842456-9914a980-c07b-11ea-9c43-0a56a01090f8.png"
+                          alt="telefone"
                         />
-                        www.f360.com.br
-                      </td>
-                    </tr>
-                  </table>
+                        <span>+55 (11) 2091-6198</span>
+                      </div>
+                      <div class="sntContact">
+                        <img
+                          style="width:12px"
+                          src="https://user-images.githubusercontent.com/7879993/86842591-ce20fc00-c07b-11ea-84fe-ed4ca383a993.png"
+                          alt="email"
+                        />
+                        <span>www.f360.com.br</span>
+                      </div>
 
-                  <table
-                    id="source"
-                    ref="source"
-                    class="f360Snt"
-                    v-if="layoutSelected !== 'padrao'"
-                  >
-                    <tbody>
-                      <tr class="sntWrap">
-                        <td class="sntImg">
-                          <img :src="urlFoto"/>
-                        </td>
-                        <td class="sntContent">
-                          <div class="sntIntro">
-                            <span class="sntName">{{ assinatura.nome }}</span> <br />
-                            <span class="sntFnct">{{ assinatura.funcao }}</span>
-                          </div>
-
-                          <div class="sntContact">
-                            <img
-                              style="width:12px"
-                              src="https://user-images.githubusercontent.com/7879993/86842456-9914a980-c07b-11ea-9c43-0a56a01090f8.png"
-                              alt="telefone"
-                            />
-                            <span>+55 (11) 2091-6198</span>
-                          </div>
-                          <div class="sntContact">
-                            <img
-                              style="width:12px"
-                              src="https://user-images.githubusercontent.com/7879993/86842591-ce20fc00-c07b-11ea-84fe-ed4ca383a993.png"
-                              alt="email"
-                            />
-                            <span>www.f360.com.br</span>
-                          </div>
-
-                          <div>
-                            <img
-                              width="80"
-                              :src="logoSelected"
-                              alt="Logo f360"
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                      <div>
+                        <img
+                          width="80"
+                          :src="logoSelected"
+                          alt="Logo f360"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-      </div>
-    </a-col>
-  </a-row>
-  <a-row class="instrucoes">
-    <a-col class="instrucoes-info">
-      <span style="margin:2px 5px;">Vá em configuraçãoes.</span>
-      <img :src="require(`@/assets/ex1.gif`)" />
-    </a-col>
-    <a-col class="instrucoes-info">
-      <span style="margin:2px 5px;">Cole e ative sua assinatura.</span>
-      <img :src="require(`@/assets/ex2.gif`)" />
-    </a-col>
-  </a-row>
-</div>
+        </div>
+      </a-col>
+    </a-row>
+    <a-row class="instrucoes">
+      <a-col class="instrucoes-info">
+        <span style="margin:2px 5px;">Vá em configuraçãoes.</span>
+        <img :src="require(`@/assets/ex1.gif`)" />
+      </a-col>
+      <a-col class="instrucoes-info">
+        <span style="margin:2px 5px;">Cole e ative sua assinatura.</span>
+        <img :src="require(`@/assets/ex2.gif`)" />
+      </a-col>
+    </a-row>
+  </div>
 </template>
 
 <script>
 import Clipboard from 'clipboard';
 import { message } from 'ant-design-vue';
 import { ref, onMounted, computed, watch } from 'vue';
-import { firebase  } from '../useFirebase';
+import { firebase } from '../useFirebase';
 
 export default {
   name: 'App',
@@ -178,48 +224,37 @@ export default {
       nome:'',
       funcao:'',
       layout: [
-      {text: "Layout padrão",value: "padrao"},
-      {text: "Layout CS",value: "cs"}
+        { text: "Layout padrão", value: "padrao" },
+        { text: "Layout CS", value: "cs" }
       ],
-      logos: [
-      {
-        text: "Logo f360",
-        value:
-          "https://user-images.githubusercontent.com/7879993/83878094-fc748a00-a711-11ea-833c-98bcc1019cbf.png"
-      },
-      {
-        text: "Logo Contábil",
-        value:
-          "https://user-images.githubusercontent.com/7879993/83878098-fd0d2080-a711-11ea-94ca-3b25d366bc2a.png"
-      }
-    ],
+      logos: [],
     });
-    
+
     const getStorageName = (value) => {
-      return csUpload.value ? 
-      storageRef(storage, `cs/${nomeLogo.value}--${value.file.uid}`)
-      :storageRef(storage, `${nomeLogo.value || 'Upload'}--${value.file.uid}`);
+      return csUpload.value ?
+        storageRef(storage, `cs/${nomeLogo.value}--${value.file.uid}`)
+        : storageRef(storage, `${nomeLogo.value || 'Upload'}--${value.file.uid}`);
     };
     const setCurrentLogo = (response) => {
       const { fullPath, bucket } = response.metadata;
-      if(!csUpload.value){
-         logoSelected.value = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${fullPath}?alt=media`;
-              assinatura.value.logos.push({ 
-              text: !nomeLogo.value 
-                ? `${assinatura.value.logos.length + 1} - Upload` 
-                : nomeLogo.value,
-              value: logoSelected.value
+      if (!csUpload.value) {
+        logoSelected.value = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${fullPath}?alt=media`;
+        assinatura.value.logos.push({
+          text: !nomeLogo.value
+            ? `${assinatura.value.logos.length + 1} - Upload`
+            : nomeLogo.value,
+          value: logoSelected.value
         });
         return;
       }
       const formatFullPatch = fullPath.replace('/', '%2F');
       urlFoto.value = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${formatFullPatch}?alt=media`;
-              fotosCs.value.push({ 
-              text: !nomeLogo.value 
-                ? `${fotosCs.value.length + 1} - Upload` 
-                : nomeLogo.value,
-              value: urlFoto.value
-        });
+      fotosCs.value.push({
+        text: !nomeLogo.value
+          ? `${fotosCs.value.length + 1} - Upload`
+          : nomeLogo.value,
+        value: urlFoto.value
+      });
     };
     const handleUploadLogo = (value) => {
       const storageLogos = getStorageName(value)
@@ -229,48 +264,51 @@ export default {
         message.success('Arquivo salvo com sucesso!');
       });
     }
-    
-    watch(layoutSelected,() => { 
+
+    watch(layoutSelected, () => {
       nomeLogo.value = '';
     });
 
-     onMounted(() => {
-      handleListLogos(assinatura.value.logos);
+    onMounted(() => {
+      const { logos } = assinatura.value;
+
+      handleListLogos(logos, logoSelected);
       handleListFotosCs(fotosCs.value);
 
-      const signatureClipboard  = new Clipboard('.js-copy');
-      const signatureClipboardSrc  = new Clipboard('.js-copy-src',{
-         text:() => {
-            return source.value.outerHTML;
-          }
+
+      const signatureClipboard = new Clipboard('.js-copy');
+      const signatureClipboardSrc = new Clipboard('.js-copy-src', {
+        text: () => {
+          return source.value.outerHTML;
+        }
       });
       const heandleMessage = (action) => {
-       const ishtml = !action ? 'HTML' : '';
-       message.success(`${ishtml} Copiado para área de transferência!`);
+        const ishtml = !action ? 'HTML' : '';
+        message.success(`${ishtml} Copiado para área de transferência!`);
       };
-     
+
       signatureClipboard.on('success', () => {
         heandleMessage('Copiar');
       });
-      signatureClipboardSrc.on('success',() => {
+      signatureClipboardSrc.on('success', () => {
         heandleMessage('');
       });
 
-     start.value.focus();
+      start.value.focus();
     });
 
-    return {assinatura, layoutSelected, logoSelected, start, source, handleUploadLogo, file, isLoading, nomeLogo, csUpload, fotosCs, urlFoto }
+    return { assinatura, layoutSelected, logoSelected, start, source, handleUploadLogo, file, isLoading, nomeLogo, csUpload, fotosCs, urlFoto }
   }
 }
 </script>
 
 <style lang="scss">
-#app{
- background: #f1f1f1;
- height: 100%;
- padding: 24px;
- min-height: 700px;
- margin: 0;
+#app {
+  background: #f1f1f1;
+  height: 100%;
+  padding: 24px;
+  min-height: 700px;
+  margin: 0;
 }
 
 $primary: #779ec3;
@@ -422,7 +460,7 @@ i.v-icon.material-icons {
   margin-top: 10px;
 }
 
-#main-container{
+#main-container {
   max-width: 980px;
   margin: 0 auto;
   gap: 16px;
@@ -430,11 +468,11 @@ i.v-icon.material-icons {
   display: flex;
   flex-wrap: wrap;
 }
-.bg-container{
-   background: #ffffff;
-   border-radius: 4px;
+.bg-container {
+  background: #ffffff;
+  border-radius: 4px;
 }
-.main-container-options{
+.main-container-options {
   overflow: hidden;
   max-width: 350px;
   box-shadow: 5px 5px 5px -3px #00000020;
@@ -446,29 +484,29 @@ i.v-icon.material-icons {
   gap: 8px;
 }
 
-.main-container-btns{
+.main-container-btns {
   display: flex;
   width: 100%;
-  gap:8px;
+  gap: 8px;
   margin-top: 8px;
 }
-.main-container-btns button{
-width: 100%;
+.main-container-btns button {
+  width: 100%;
 }
 
-.main-container-options label{
+.main-container-options label {
   width: 100%;
   color: #4e4e4e;
 }
-.main-container-assinatura{
- display: grid;
- place-items: center;
- min-height: 100%;
- width: 580px;
- padding: 8px;
- border: 2px dashed #779ec3;;
+.main-container-assinatura {
+  display: grid;
+  place-items: center;
+  min-height: 100%;
+  width: 580px;
+  padding: 8px;
+  border: 2px dashed #779ec3;
 }
-.main-container-upload{
+.main-container-upload {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -476,37 +514,36 @@ width: 100%;
   background: #f9f9f9;
   max-width: 300px;
   overflow: hidden;
-  legend{
-      font-size: 12px;
-      color: $primary;
+  legend {
+    font-size: 12px;
+    color: $primary;
   }
 }
-.instrucoes{
+.instrucoes {
   display: flex;
   justify-content: center;
   margin-top: 48px;
 }
-.instrucoes-info{
-   display: flex;
-   flex-direction: column;
-   background: #f1f1f1;
-   margin: 2px;
-   padding: 2px;
-   span{
+.instrucoes-info {
+  display: flex;
+  flex-direction: column;
+  background: #f1f1f1;
+  margin: 2px;
+  padding: 2px;
+  span {
     color: $primary;
     font-weight: bold;
-   }
+  }
 }
-@media(max-width:800px){
-  .main-container-assinatura{
+@media (max-width: 800px) {
+  .main-container-assinatura {
     max-width: 300px;
     display: flex;
   }
-  .instrucoes-info{
-    img{
+  .instrucoes-info {
+    img {
       max-width: 300px;
     }
   }
 }
-
 </style>
