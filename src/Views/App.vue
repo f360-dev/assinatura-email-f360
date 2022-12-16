@@ -109,7 +109,7 @@
                       src="https://user-images.githubusercontent.com/7879993/75485599-c04ec200-5989-11ea-9d9d-6d5a516f93f5.png"
                       width="16"
                       alt="Telefone"
-                    />{{ assinatura.foneUm || "+55 (11) 2091-6178" }} <br />
+                    />{{ assinatura.foneUm }} <br />
                   </td>
                 </tr>
                 <tr
@@ -219,7 +219,7 @@ export default {
     const csUpload = computed(() => layoutSelected.value === 'cs');
     const logoSelected = ref('https://firebasestorage.googleapis.com/v0/b/assinatura-email-f360.appspot.com/o/F360--vc-upload-1671020745626-5?alt=media');
     const assinatura = ref({
-      foneUm:'+55 (11) 2091-6178',
+      foneUm:'',
       foneDois:'',
       nome:'',
       funcao:'',
