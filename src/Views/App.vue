@@ -25,7 +25,7 @@
             />
           </label>
           <label>
-            Telefone #1
+            Telefone
             <a-input
               v-mask="'+55 (##) ####-####'"
               v-model:value="assinatura.foneUm"
@@ -33,9 +33,9 @@
             />
           </label>
           <label>
-            Telefone #2
+            Celular
             <a-input
-              v-mask="'+55 (##) ####-####'"
+              v-mask="'+55 (##) #####-####'"
               v-model:value="assinatura.foneDois"
               placeholder="Telefone #2"
             />
@@ -103,7 +103,7 @@
                     />
                   </th>
                 </tr>
-                <tr valign="bottom">
+                <tr valign="bottom" v-if="assinatura.foneUm">
                   <td style="color:#616161;">
                     <img
                       src="https://user-images.githubusercontent.com/7879993/75485599-c04ec200-5989-11ea-9d9d-6d5a516f93f5.png"
